@@ -1,0 +1,7 @@
+aiohttp
+asyncpg
+python-dotenv
+cryptography
+aiohttp_jwt
+pyjwt[crypto]
+Image

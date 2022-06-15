@@ -1,0 +1,16 @@
+2022-06-15 03:01:56,675 - 675.0168800354004 - request_to_add - ERROR - Получено исключение: 
+Traceback (most recent call last):
+  File "/home/dok2412/PycharmProjects/dok_test_aiohttp/service/usermodel.py", line 46, in request_to_add
+    await pool.execute("INSERT INTO pipels(username, password, salt,"
+  File "/home/dok2412/PycharmProjects/dok_test_aiohttp/env/lib/python3.10/site-packages/asyncpg/pool.py", line 564, in execute
+    return await con.execute(query, *args, timeout=timeout)
+  File "/home/dok2412/PycharmProjects/dok_test_aiohttp/env/lib/python3.10/site-packages/asyncpg/connection.py", line 318, in execute
+    return await self._protocol.query(query, timeout)
+  File "asyncpg/protocol/protocol.pyx", line 338, in query
+asyncpg.exceptions.PostgresSyntaxError: syntax error at or near "╨h"
+2022-06-15 03:01:56,675 - 675.9099960327148 - handler_registration_user - ERROR - Получено исключение: 
+Traceback (most recent call last):
+  File "/home/dok2412/PycharmProjects/dok_test_aiohttp/service/handler.py", line 94, in handler_registration_user
+    f"с пользователем {data['uer_name']}")
+KeyError: 'uer_name'
+
