@@ -1,12 +1,12 @@
-from aiohttp import web
 import asyncpg
 import os
-from dotenv import load_dotenv
 import logging.config  # подключение конфигурации логов
 
 
 # подключение сборшика логера
 from loggings.descriptionlogger import logger_config
+from dotenv import load_dotenv
+from aiohttp import web
 
 
 load_dotenv()  # включение видисти env файла
