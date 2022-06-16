@@ -25,7 +25,7 @@ async def db_save_img(path: str, user: dict) -> None:
     except Exception:
         log_error.error('Получено исключение: ', exc_info=True)
 
-async def image_search(img_id: int, user: int) -> str:
+async def image_search(imgid: int, user: int) -> str:
     """
     Функция служит для поиска изображения в базе данных и вывода
     находжения его пути.
@@ -38,7 +38,7 @@ async def image_search(img_id: int, user: int) -> str:
                                        password=os.getenv("PASSWORD")) as pool:
             path = await pool.fetchrow("SELECT slug FROM images WHERE "
                                        "id = '{0}' and user_id = '{1}' "
-                                       .format(img_id, user))
+                                       .format(imgid, user))
         log_info.info(f"Функция вернула изображение из базы")
         return path
 
@@ -79,8 +79,8 @@ async def save_images(imege, user: dict) -> dict:
             await db_save_img(file_path, user)
             log_info.info(f"Пользователь {user['username']} добавил"
                           f" изобрадение в базу")
-            return {'status': 200, 'message': 'Изображение сохранено '
-                                              'в базе данных'}
+            return {'status': 200, 'message': 'The image is saved in the'
+                                              ' database'}
         else:
             new_file = filename.split('.')[0] + '.jpeg'
             if imege.get('quality'):
@@ -92,14 +92,14 @@ async def save_images(imege, user: dict) -> dict:
             await db_save_img(file_path, user)
             log_info.info(f"Пользователь {user['username']} добавил"
                           f" измененное изобрадение в базу")
-            return {'status': 200, 'message': 'Изображение изменено в формат '
-                                              'JPEG и сохранено в базе'
-                                              ' данных'}
+            return {'status': 200, 'message': 'The image has been changed to'
+                                              ' JPEG format and saved in the'
+                                              ' database'}
     except Exception:
         log_error.error('Получено исключение: ', exc_info=True)
 
 
-async def image_output(data: dict, user: dict) -> str | dict[str, str | int]:
+async def image_output(data: int, user: dict) -> str | dict[str, str | int]:
     """
     Функция предназначена для проверки наличия необходимого изображения в базе
     и выводе его пользователю
@@ -108,7 +108,7 @@ async def image_output(data: dict, user: dict) -> str | dict[str, str | int]:
                возвращиет словарь с ответом о отсутствии изображения
     """
     try:
-        image_path = await image_search(data['id_img'], user['id'])
+        image_path = await image_search(data, user['id'])
         if image_path:
             log_info.info(f"пользователю {user['username']} "
                           f"отправлено изобрадение")
@@ -116,7 +116,7 @@ async def image_output(data: dict, user: dict) -> str | dict[str, str | int]:
         else:
             log_info.info(f"пользователю {user['username']} отказано"
                           f" в доступе к изображению")
-            return {'status': 403, 'message': 'У Вас не доступа'
-                                              ' к данному изображению'}
+            return {'status': 403, 'message': 'You do not have access'
+                                              ' to this image'}
     except Exception:
         log_error.error('Получено исключение: ', exc_info=True)

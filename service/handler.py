@@ -7,8 +7,8 @@ from service.images import save_images, image_output
 from service.usermodel import registration, authorization, entrance_control
 from main import log_error, log_info
 
-class Handler:
 
+class Handler:
 
     def __init__(self):
         pass
@@ -30,31 +30,8 @@ class Handler:
         except Exception:
             log_error.error('Получено исключение: ', exc_info=True)
 
-
-
     async def handler_get_user(self, request):
-        """
-        Функция предназначена для вывода пользователю изображения
-        из базы данных
-        :param request: - на вход получает id необходимого изображения в базе
-        :return: - возвращает изображение либо ответ о том что
-                   изображение отсутствует
-        """
-        try:
-            user = await self.token_processing(request)
-            data = await request.json()  # получение данных запроса
-            file = await image_output(data, user)
-            if type(file) is not dict:
-                url = os.path.relpath(file)  # путь к файлу
-                log_info.info(f"Функция вернула изобрадение пользователю:"
-                              f" {user['username']}")
-                return web.FileResponse(url)  # вывод изображения
-            else:
-                log_info.info(f"Функция отклонила вывод изображения"
-                              f" пользователю: {user['username']}")
-                return web.json_response(file)
-        except Exception:
-            log_error.error('Получено исключение: ', exc_info=True)
+        pass
 
     async def handler_auth_user(self, request):
         """
@@ -70,11 +47,11 @@ class Handler:
             if addendum.get('id'):
                 tokens = await entrance_control(addendum)
                 log_info.info(f"Функция произвела вход пользователя "
-                              f"{data['user_name']}вернула валидный токен")
+                              f"{data['username']}вернула валидный токен")
                 return web.json_response(tokens)
             else:
                 log_info.info(f"Функция отклонила вход пользователя: "
-                              f"{data['user_name']}")
+                              f"{data['username']}")
                 return web.json_response(addendum)
         except Exception:
             log_error.error('Получено исключение: ', exc_info=True)
@@ -91,7 +68,7 @@ class Handler:
             data = await request.json()
             reg = await registration(data)
             log_info.info(f"Функция завершила регистрационные действия "
-                          f"с пользователем {data['user_name']}")
+                          f"с пользователем {data['username']}")
             return web.json_response(reg)
         except Exception:
             log_error.error('Получено исключение: ', exc_info=True)
@@ -113,8 +90,8 @@ class Handler:
         except jwt.exceptions.DecodeError:
             log_error.error('Токен не валиден. Ошибка: ', exc_info=True)
             return web.json_response({'status': '423',
-                                      'message': 'Токен пользователя'
-                                                 ' не активен'})
+                                      'message': 'The user token is not'
+                                                 ' active'})
 
     async def conclusion_log_info(self, request):
         """
@@ -135,5 +112,29 @@ class Handler:
         try:
             log_info.info("Выведен файл логирования полученных ошибок")
             return web.FileResponse(os.path.abspath(os.path.join('loggings', 'error.log')))
+        except Exception:
+            log_error.error('Получено исключение: ', exc_info=True)
+
+    async def out_img(self, request):
+        """
+        Функция предназначена для вывода пользователю изображения
+        из базы данных
+        :param request: - на вход получает id необходимого изображения в базе
+        :return: - возвращает изображение либо ответ о том что
+                   изображение отсутствует
+        """
+        try:
+            user = await self.token_processing(request)
+            id = request.match_info['id']
+            file = await image_output(id, user)
+            if type(file) is not dict:
+                url = os.path.relpath(file)  # путь к файлу
+                log_info.info(f"Функция вернула изобрадение пользователю:"
+                              f" {user['username']}")
+                return web.FileResponse(url)  # вывод изображения
+            else:
+                log_info.info(f"Функция отклонила вывод изображения"
+                              f" пользователю: {user['username']}")
+                return web.json_response(file)
         except Exception:
             log_error.error('Получено исключение: ', exc_info=True)

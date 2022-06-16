@@ -38,6 +38,7 @@ async def make_app():
         app.on_startup.append(on_start)  # запуск бд при старте
         app.add_routes([
             web.get('/', handler.handler_get_user),
+            web.get('/{id}', handler.out_img),
             web.get('/info', handler.conclusion_log_info),
             web.get('/error', handler.conclusion_log_error),
             web.post('/registration', handler.handler_registration_user),

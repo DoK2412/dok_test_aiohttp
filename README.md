@@ -26,7 +26,7 @@ Response:
 ```json
 {
   "status": 200,
-  "message": "Пользователь добавлен в базу данных"
+  "message": "The user has been added  to the database"
 }
  ```
 
@@ -35,13 +35,13 @@ Response:
 ```json
 {
   "status": 403,
-  "message": "Пользователm есть в базе данных"
+  "message": "The user is in the database"
 }
  ```
 ```json
 {
   "status": 403,
-  "message": "Логин или пароль не соответсвует стандарту"
+  "message": "Login or password does  not meet the standard"
 }
  ```
 
@@ -70,13 +70,13 @@ Response:
 ```json
 {
   "status": 403,
-  "message": "Пароль не верен повторите попытку"
+  "message": "The password is incorrect try again"
 }
  ```
 ```json
 {
   "status": 403,
-  "message": "Пользователя не сушествует в базе данных"
+  "message": "The user does not exist in the database"
 }
  ```
 
@@ -97,13 +97,13 @@ Response:
 ```json
 {
   "status": 200,
-  "message": "Изображение сохранено в базе данных"
+  "message": "The image is saved in the  database"
 }
  ```
 ```json
 {
   "status": 200,
-  "message": "Изображение изменено в формат JPEG и сохранено в базе данных"
+  "message": "The image has been changed to JPEG format and saved in the database"
 }
  ```
 
@@ -113,7 +113,7 @@ Response:
 ```json
 {
   "status": 423,
-  "message": "Токен пользователя не активен"
+  "message": "The user token is not  active"
 }
  ```
 
@@ -121,9 +121,9 @@ Response:
 
     `GET` `/:id` `Autorization Bearer TOKEN`
      Request body (JSON):
-        `{"id_img": **}`
+        http://0.0.0.0:8080/{id}
 
-         где:   `id_img` - это id изображения в базе данных.
+         где:   {id} - это id изображения в базе данных.
 
 Response:
 
@@ -140,7 +140,7 @@ Response:
 ```json
 {
   "status": 423,
-  "message": "У Вас не доступа к данному изображению"
+  "message": "You do not have access  to this image"
 }
  ```
 
